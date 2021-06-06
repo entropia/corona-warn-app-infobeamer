@@ -1,0 +1,79 @@
+#!/usr/bin/env python
+
+import json
+import requests
+import traceback
+import time
+from datetime import datetime, timedelta
+import base64
+import pytz
+import urllib3
+from os import getenv
+from os.path import isfile
+
+from hosted import CONFIG, NODE
+
+CWA_QR_URL = 'https://cwa-qr-generator.smedia.tools/generate'
+
+CONFIG.restart_on_update()
+
+
+def generate_cwa_qr_code():
+    utc_last_midnight = int((time.time()//86400)*86400)
+    utc_next_midnight = utc_last_midnight+86400
+    needs_regenerate = False
+    try:
+        with open('cwa-qr-code.txt', 'r') as f:
+            old_content = f.read().splitlines()
+
+        if int(old_content[0]) < utc_last_midnight:
+            print '[CWA QR] older than last midnight'
+            needs_regenerate = True
+
+    except Exception as e:
+        print '[CWA QR] could not detect changes: {}'.format(repr(e))
+        needs_regenerate = True
+
+
+    if needs_regenerate:
+        try:
+            qr = requests.post(
+                CWA_QR_URL,
+                json={
+                    'description': 'Entropia e. V.',
+                    'address': 'entropia info-beamer {}'.format(getenv('SERIAL')),
+                    'start_utc': utc_last_midnight,
+                    'end_utc': utc_next_midnight,
+                    'location_type': 6,
+                    'checkin_length_minutes': 4*60,
+                    'qr_size': 800,
+                },
+                headers={'Content-Type': 'application/json'},
+            )
+            qr.raise_for_status()
+            with open('cwa-qr-code.png', 'wb') as img:
+                img.write(qr.content)
+
+            with open('cwa-qr-code.txt', 'w') as f:
+                f.write('{}\n'.format(
+                    (utc_next_midnight-10),
+                ))
+
+            print '[CWA QR] renewed'
+        except Exception as e:
+            print '[CWA QR] could not be renewed: {}'.format(repr(e))
+    else:
+        print '[CWA QR] does not need renewing'
+
+
+def main():
+    while 1:
+        try:
+            generate_cwa_qr_code()
+            time.sleep(60)
+        except Exception:
+            traceback.print_exc()
+            time.sleep(30)
+
+if __name__ == "__main__":
+    main()

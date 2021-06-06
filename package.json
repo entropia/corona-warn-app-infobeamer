@@ -1,0 +1,15 @@
+{
+    "name": "QWA-QR",
+    "author": "kunsi@entropia.de",
+    "desc": "qr-code-dingsie",
+
+    "lifecycle": "production",
+    "nesting": {
+        "childs": [
+            "any"
+        ],
+        "parents": [
+            "top-level"
+        ]
+    }
+}

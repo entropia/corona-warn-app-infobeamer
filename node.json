@@ -1,0 +1,10 @@
+{
+    "name": "CWA-QR",
+    "permissions": {
+        "network": "Needs to get qr code"
+    },
+    "optional": [
+        ".gitignore",
+        "COPYRIGHT"
+    ]
+}
