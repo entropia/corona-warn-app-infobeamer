@@ -19,7 +19,7 @@ function node.render()
 
     if logo_state == 'loaded' and qr_state == 'loaded' then
         qr_x = (NATIVE_WIDTH/2)-(qr_width/2)
-        qr_y = (NATIVE_HEIGHT/2)-logo_height-(qr_height/2)-16
+        qr_y = (NATIVE_HEIGHT/2)-(logo_height/2)-(qr_height/2)-8
 
         logo_x = (NATIVE_WIDTH/2)-(logo_width/2)
         logo_y = qr_y+16
