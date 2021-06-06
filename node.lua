@@ -1,5 +1,3 @@
-util.init_hosted()
-hosted_init()
 gl.setup(NATIVE_WIDTH, NATIVE_HEIGHT)
 
 local images = {}
