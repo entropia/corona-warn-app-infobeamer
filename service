@@ -44,7 +44,7 @@ def generate_cwa_qr_code():
                     'address': 'entropia info-beamer {}'.format(getenv('SERIAL')),
                     'start_utc': utc_last_midnight,
                     'end_utc': utc_next_midnight,
-                    'location_type': 6,
+                    'location_type': 7,
                     'checkin_length_minutes': 4*60,
                     'qr_size': 800,
                 },
