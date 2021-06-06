@@ -20,15 +20,16 @@ function node.render()
     logo_state, logo_width, logo_height = cwa_logo:state()
 
     if logo_state == 'loaded' and qr_state == 'loaded' then
-        qr_x = NATIVE_WIDTH/2-qr_width/2
-        qr_y = NATIVE_HEIGHT/2-(logo_height+qr_height/2)-16
+        qr_x = (NATIVE_WIDTH/2)-(qr_width/2)
+        qr_y = (NATIVE_HEIGHT/2)-logo_height-(qr_height/2)-16
 
-        logo_x = NATIVE_WIDTH/2-logo_width/2
+        logo_x = (NATIVE_WIDTH/2)-(logo_width/2)
+        logo_y = qr_y+16
 
         white:draw(qr_x, qr_y, qr_x+qr_width, qr_y+logo_height+qr_height+16)
 
         images['cwa-qr-code.png']:draw(qr_x, qr_y+logo_height+16, qr_x+qr_width, qr_y+logo_height+16+qr_height)
 
-        cwa_logo:draw(logo_x, qr_y, logo_x+logo_width, qr_y+logo_height)
+        cwa_logo:draw(logo_x, logo_y, logo_x+logo_width, logo_y+logo_height)
     end
 end
